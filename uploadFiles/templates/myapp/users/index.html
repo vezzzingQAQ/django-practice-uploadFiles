@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>用户信息</title>
+        <!--templates/myapp/users/index.html-->
+    </head>
+    <script>
+        function doDel(uu){
+            if(confirm("确定要删除吗?")){
+                window.location=uu;
+            }
+        }
+    </script>
+    <style>
+        .header{
+            text-align: center;
+        }
+        .header>table{
+            width: 800px;
+            margin: 60px auto;
+            border-radius: 5px;
+        }
+        .header .greyTr{
+            background-color: rgb(230, 203, 255);
+            padding: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        .header td{
+            background-color: rgb(203, 252, 255);
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        .header td a{
+            background-color: rgb(230, 203, 255);
+            text-decoration: none;
+            margin-left: 5px;
+            color: black;
+        }
+        .header td a:hover{
+            background-color: rgb(247, 185, 185);
+        }
+        .header .headera{
+            background-color: rgb(230, 203, 255);
+            text-decoration: none;
+            color: black;
+            border-radius: 3px;
+            padding: 5px;
+        }
+        .header .headera:hover{
+            background-color: rgb(247, 185, 185);
+        }
+    </style>
+    <body>
+        <section class="header">        
+            <h2>用户信息管理</h2>
+            <h3>浏览用户信息</h3>
+
+            <br>
+            <a class="headera" href="{% url 'indexusers' %}">浏览信息</a>
+            <a class="headera" href="{% url 'addusers' %}">添加信息</a>
+            <a class="headera" href="{% url 'addrandomusers' %}">批量随机</a>
+
+            <table>
+                <tr>
+                    <th class="greyTr">ID</th>
+                    <th class="greyTr">姓名</th>
+                    <th class="greyTr">年龄</th>
+                    <th class="greyTr">ID序列</th>
+                    <th class="greyTr">电话</th>
+                    <th class="greyTr">操作</th>
+                </tr>
+                {% for user in userslist %}
+                    <tr>
+                        <td>{{user.id}}</td>
+                        <td>{{user.name}}</td>
+                        <td>{{user.age}}</td>
+                        <td>{{user.idNumber}}</td>
+                        <td>{{user.phoneNumber}}</td>
+                        <td><a href="{% url 'editusers' user.id %}">编辑</a><a href="javascript:doDel('{% url 'delusers' user.id %}');">删除</a></td><!--URL反向解析-->
+                    </tr>
+                {% endfor %}
+            </table>
+        </section>
+    </body>
+</html>
