@@ -159,7 +159,7 @@ def updateUsers(request):
 
 def uploadPage(request):
     return(render(request,"myapp/uploadFiles/upload.html"))
-
+'''
 def doUpload(request):
     #处理上传的文件
     myfile=request.FILES.get("pic",None)
@@ -182,6 +182,34 @@ def doUpload(request):
     #用Pillow实现图片自动缩放成75*75,也可以用来加水印
     im=Image.open("static/pics/"+filename)
     im.thumbnail((75,75))
+    im.save("static/pic_sized/"+filename,None)
+
+    #os.remove(...+filename)删除原图
+
+    return(HttpResponse("上传成功:"+filename))
+'''
+def doUpload(request):
+    #处理上传的文件
+    myfile=request.FILES.get("pic",None)
+    
+    if not myfile:
+        return(HttpResponse("没有上传的文件信息"))
+    
+    print(myfile)
+    print(request.POST["title"])
+
+    #destination=open("./static/pics/a.png","wb+")#目标文件
+    #生成上传后的文件名
+    filename="bc"+"."+myfile.name.split(".").pop()#随机时间戳+原来的后缀名
+    destination=open("static/pics/"+filename,"wb+")
+
+    for chunk in myfile.chunks():#分块读取上传文件内容并写入目标文件
+        destination.write(chunk)
+    destination.close()
+
+    #用Pillow实现图片自动缩放成75*75,也可以用来加水印
+    im=Image.open("static/pics/"+filename)
+    im.thumbnail((275,275))
     im.save("static/pic_sized/"+filename,None)
 
     #os.remove(...+filename)删除原图
